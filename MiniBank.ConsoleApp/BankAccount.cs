@@ -35,5 +35,18 @@ namespace MiniBank.ConsoleApp
             Balance -= amount;
             return true;
         }
+        public bool TransferTo(BankAccount recipient, decimal amount)
+        {
+            if (recipient == null || recipient == this)
+            {
+                return false;
+            }
+            if (!Withdraw(amount))
+            {
+                return false;
+            }
+            recipient.Deposit(amount);
+            return true;
+        }
     }
 }
