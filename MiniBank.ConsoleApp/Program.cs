@@ -19,6 +19,7 @@ Dictionary<int, string> commands = new()
     [4] = "Перевод",
     [5] = "История",
     [6] = "Создать счёт",
+    [7] = "Сменить текущий счёт",
     [0] = "Выход"
 };
 
@@ -118,6 +119,24 @@ while (true)
 
         accounts.Add(newAccountNumber, new BankAccount(newAccountNumber, newOwnerName));
         Console.WriteLine("Счёт успешно создан");
+    }
+    else if (command == "7")
+    {
+        Console.Write("Введите номер счета: ");
+        string? accountNumber = Console.ReadLine();
+        if (accountNumber == null)
+        {
+            break;
+        }
+        if (accounts.TryGetValue(accountNumber, out BankAccount? selectedAccount))
+        {
+            account = selectedAccount;
+            Console.WriteLine($"Имя владельца счета: {account.OwnerName}");
+        }
+        else
+        {
+            Console.WriteLine("Счёт не найден");
+        }
     }
     else
     {
