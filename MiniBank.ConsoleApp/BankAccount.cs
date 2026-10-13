@@ -14,6 +14,14 @@ namespace MiniBank.ConsoleApp
         public IReadOnlyList<Transaction> Transactions => transactions.AsReadOnly();
         public BankAccount(string accountNumber, string ownerName)
         {
+            if (string.IsNullOrWhiteSpace(accountNumber))
+            {
+                throw new ArgumentException("Номер счёта не должен быть пустым");
+            }
+            if (string.IsNullOrWhiteSpace(ownerName))
+            {
+                throw new ArgumentException("Имя владельца не должно быть пустым");
+            }
             AccountNumber = accountNumber;
             OwnerName = ownerName;
             Balance = 0m;
