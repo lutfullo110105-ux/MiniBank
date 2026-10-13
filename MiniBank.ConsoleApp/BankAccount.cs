@@ -54,11 +54,14 @@ namespace MiniBank.ConsoleApp
             {
                 return false;
             }
-            if (!Withdraw(amount))
+            if (amount <= 0 || amount > Balance)
             {
                 return false;
             }
-            recipient.Deposit(amount);
+            Balance -= amount;
+            recipient.Balance += amount;
+            transactions.Add(new Transaction("Исходящий перевод", amount));
+            recipient.transactions.Add(new Transaction("Входящий перевод", amount));
             return true;
         }
     }

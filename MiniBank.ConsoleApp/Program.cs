@@ -84,6 +84,7 @@ while (true)
     }
     else if (command == "5")
     {
+        Console.WriteLine($"{account.OwnerName} - {account.Balance} сомони");
         if (account.Transactions.Count != 0)
         {
             foreach (Transaction transaction in account.Transactions)
