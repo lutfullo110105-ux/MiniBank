@@ -18,6 +18,7 @@ Dictionary<int, string> commands = new()
     [3] = "Снятие",
     [4] = "Перевод",
     [5] = "История",
+    [6] = "Создать счёт",
     [0] = "Выход"
 };
 
@@ -91,6 +92,32 @@ while (true)
     else if (command == "5")
     {
         ShowHistory(account);
+    }
+    else if (command == "6")
+    {
+        Console.Write("Введите номер нового счёта: ");
+        string? newAccountNumber = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(newAccountNumber))
+        {
+            Console.WriteLine("Номер счёта не должен быть пустым");
+            continue;
+        }
+        else if (accounts.ContainsKey(newAccountNumber))
+        {
+            Console.WriteLine("Счёт с таким номером уже существует");
+            continue;
+        }
+
+        Console.Write("Введите имя владельца: ");
+        string? newOwnerName = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(newOwnerName))
+        {
+            Console.WriteLine("Имя владельца не должно быть пустым");
+            continue;
+        }
+
+        accounts.Add(newAccountNumber, new BankAccount(newAccountNumber, newOwnerName));
+        Console.WriteLine("Счёт успешно создан");
     }
     else
     {
