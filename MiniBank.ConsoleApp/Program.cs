@@ -1,39 +1,105 @@
 ﻿using MiniBank.ConsoleApp;
 
-BankAccount account = new BankAccount("100001", "Lutfullo");
+BankAccount account = new BankAccount("100001", "Лутфулло");
+BankAccount recipient = new BankAccount("100002", "Али");
 
-Console.WriteLine($"Счёт: {account.AccountNumber}");
-Console.WriteLine($"Владелец: {account.OwnerName}");
-Console.WriteLine($"Баланс: {account.Balance} TJS");
+Dictionary<int, string> commands = new()
+{
+    [1] = "Баланс",
+    [2] = "Пополнение",
+    [3] = "Снятие",
+    [4] = "Перевод",
+    [5] = "История",
+    [0] = "Выход"
+};
 
-Console.WriteLine($"Пополнение на 100: {account.Deposit(100m)}");
-Console.WriteLine($"Баланс: {account.Balance} TJS");
+while (true)
+{
+    Console.WriteLine("\nМеню:");
+    foreach (var com in commands)
+    {
+        Console.WriteLine($"{com.Key} — {com.Value}");
+    }
 
-Console.WriteLine($"Пополнение на -20: {account.Deposit(-20m)}");
-Console.WriteLine($"Баланс: {account.Balance} TJS");
+    Console.Write("Выберите пункт: ");
+    string? command = Console.ReadLine();
 
-Console.WriteLine($"Пополнение на 0: {account.Deposit(0m)}");
-Console.WriteLine($"Баланс: {account.Balance} TJS");
+    if (command == null || command == "0")
+    {
+        break;
+    }
+    else if (command == "1")
+    {
+        Console.WriteLine($"Баланс: {account.Balance} сомони");
+    }
+    else if (command == "2")
+    {
+        Console.Write("Введите сумму пополнения: ");
 
-Console.WriteLine($"Снятие 30: {account.Withdraw(30m)}");
-Console.WriteLine($"Баланс: {account.Balance} TJS");
+        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+        {
+            bool success = account.Deposit(amount);
+            Console.WriteLine(success
+                ? "Счёт успешно пополнен"
+                : "Сумма должна быть больше нуля");
+        }
+        else
+        {
+            Console.WriteLine("Введите корректное число");
+        }
+    }
+    else if (command == "3")
+    {
+        Console.Write("Введите сумму снятия: ");
 
-Console.WriteLine($"Снятие 80: {account.Withdraw(80m)}");
-Console.WriteLine($"Баланс: {account.Balance} TJS");
+        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+        {
+            bool success = account.Withdraw(amount);
+            Console.WriteLine(success
+                ? "Деньги успешно сняты"
+                : "Сумма должна быть больше нуля и не превышать баланс");
+        }
+        else
+        {
+            Console.WriteLine("Введите корректное число");
+        }
+    }
+    else if (command == "4")
+    {
+        Console.WriteLine($"Получатель: {recipient.OwnerName}, счёт {recipient.AccountNumber}");
 
-Console.WriteLine($"Снятие 70: {account.Withdraw(70m)}");
-Console.WriteLine($"Баланс: {account.Balance} TJS");
+        Console.Write("Введите сумму перевода: ");
 
-BankAccount sender = new BankAccount("100002", "Ali");
-BankAccount recipient = new BankAccount("100003", "Bob");
-
-sender.Deposit(100m);
-
-Console.WriteLine($"Перевод 150: {sender.TransferTo(recipient, 150m)}");
-Console.WriteLine($"Ali: {sender.Balance}, Bob: {recipient.Balance}");
-
-Console.WriteLine($"Перевод 30: {sender.TransferTo(recipient, 30m)}");
-Console.WriteLine($"Ali: {sender.Balance}, Bob: {recipient.Balance}");
-
-Console.WriteLine($"Перевод себе 10: {sender.TransferTo(sender, 10m)}");
-Console.WriteLine($"Ali: {sender.Balance}, Bob: {recipient.Balance}");
+        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+        {
+            bool success = account.TransferTo(recipient, amount);
+            Console.WriteLine(success
+                ? "Перевод выполнен"
+                : "Перевод отклонён: проверьте сумму и баланс");
+        }
+        else
+        {
+            Console.WriteLine("Введите корректное число");
+        }
+    }
+    else if (command == "5")
+    {
+        if (account.Transactions.Count != 0)
+        {
+            foreach (Transaction transaction in account.Transactions)
+            {
+                Console.WriteLine(
+                    $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
+                    $"{transaction.Type} | {transaction.Amount} сомони");
+            }
+        }
+        else
+        {
+            Console.WriteLine("История операций пуста");
+        }
+    }
+    else
+    {
+        Console.WriteLine("Неизвестный пункт меню");
+    }
+}

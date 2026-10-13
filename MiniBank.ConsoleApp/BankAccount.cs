@@ -9,6 +9,9 @@ namespace MiniBank.ConsoleApp
         public string AccountNumber { get; }
         public string OwnerName { get; }
         public decimal Balance { get; private set; }
+        private readonly List<Transaction> transactions = new List<Transaction>();
+
+        public IReadOnlyList<Transaction> Transactions => transactions.AsReadOnly();
         public BankAccount(string accountNumber, string ownerName)
         {
             AccountNumber = accountNumber;
@@ -23,6 +26,7 @@ namespace MiniBank.ConsoleApp
                 return false;
             }
             Balance += amount;
+            transactions.Add(new Transaction("Пополнение", amount));
             return true;
         }
 
@@ -33,6 +37,7 @@ namespace MiniBank.ConsoleApp
                 return false;
             }
             Balance -= amount;
+            transactions.Add(new Transaction("Снятие", amount));
             return true;
         }
         public bool TransferTo(BankAccount recipient, decimal amount)
