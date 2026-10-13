@@ -20,12 +20,13 @@ Dictionary<int, string> commands = new()
     [5] = "История",
     [6] = "Создать счёт",
     [7] = "Сменить текущий счёт",
+    [8] = "Список счетов",
     [0] = "Выход"
 };
 
 while (true)
 {
-    Console.WriteLine($"Текущий счёт: {account.OwnerName} | {account.AccountNumber} | " +
+    Console.WriteLine($"\nТекущий счёт: {account.OwnerName} | {account.AccountNumber} | " +
         $"Баланс: {account.Balance} сомони");
 
     Console.WriteLine("\nМеню:");
@@ -139,6 +140,13 @@ while (true)
         else
         {
             Console.WriteLine("Счёт не найден");
+        }
+    }
+    else if (command == "8")
+    {
+        foreach (var item in accounts)
+        {
+            Console.WriteLine($"Номер счёта: {item.Key}, имя владельца: {item.Value.OwnerName}");
         }
     }
     else
