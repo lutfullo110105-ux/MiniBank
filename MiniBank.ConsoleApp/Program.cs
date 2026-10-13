@@ -25,6 +25,9 @@ Dictionary<int, string> commands = new()
 
 while (true)
 {
+    Console.WriteLine($"Текущий счёт: {account.OwnerName} | {account.AccountNumber} | " +
+        $"Баланс: {account.Balance} сомони");
+
     Console.WriteLine("\nМеню:");
     foreach (var com in commands)
     {
