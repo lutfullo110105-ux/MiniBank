@@ -60,8 +60,8 @@ namespace MiniBank.ConsoleApp
             }
             Balance -= amount;
             recipient.Balance += amount;
-            transactions.Add(new Transaction("Исходящий перевод", amount));
-            recipient.transactions.Add(new Transaction("Входящий перевод", amount));
+            transactions.Add(new Transaction("Исходящий перевод", amount, recipient.AccountNumber));
+            recipient.transactions.Add(new Transaction("Входящий перевод", amount, AccountNumber));
             return true;
         }
     }

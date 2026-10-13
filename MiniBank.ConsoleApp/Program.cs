@@ -113,9 +113,18 @@ while (true)
         {
             foreach (Transaction transaction in account.Transactions)
             {
-                Console.WriteLine(
+                if (transaction.RelatedAccountNumber == null)
+                {
+                    Console.WriteLine(
                     $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
                     $"{transaction.Type} | {transaction.Amount} сомони");
+                }
+                else
+                {
+                    Console.WriteLine(
+                    $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
+                    $"{transaction.Type} | {transaction.Amount} сомони | Связанный счёт: {transaction.RelatedAccountNumber}");
+                }
             }
         }
         else
