@@ -42,34 +42,22 @@ while (true)
     }
     else if (command == "2")
     {
-        Console.Write("Введите сумму пополнения: ");
-
-        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+        if (TryReadAmount("Введите сумму пополнения: ", out decimal amount))
         {
             bool success = account.Deposit(amount);
             Console.WriteLine(success
                 ? "Счёт успешно пополнен"
                 : "Сумма должна быть больше нуля");
         }
-        else
-        {
-            Console.WriteLine("Введите корректное число");
-        }
     }
     else if (command == "3")
     {
-        Console.Write("Введите сумму снятия: ");
-
-        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+        if (TryReadAmount("Введите сумму снятия: ", out decimal amount))
         {
             bool success = account.Withdraw(amount);
             Console.WriteLine(success
                 ? "Деньги успешно сняты"
                 : "Сумма должна быть больше нуля и не превышать баланс");
-        }
-        else
-        {
-            Console.WriteLine("Введите корректное число");
         }
     }
     else if (command == "4")
@@ -86,18 +74,12 @@ while (true)
         {
             Console.WriteLine($"Получатель: {recipient.OwnerName}, счёт {recipient.AccountNumber}");
 
-            Console.Write("Введите сумму перевода: ");
-
-            if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+            if (TryReadAmount("Введите сумму перевода: ", out decimal amount))
             {
                 bool success = account.TransferTo(recipient, amount);
                 Console.WriteLine(success
                     ? "Перевод выполнен"
                     : "Перевод отклонён: проверьте сумму и баланс");
-            }
-            else
-            {
-                Console.WriteLine("Введите корректное число");
             }
         }
         else
@@ -140,5 +122,19 @@ void ShowHistory(BankAccount bankAccount)
     else
     {
         Console.WriteLine("История операций пуста");
+    }
+}
+
+bool TryReadAmount(string prompt, out decimal amount)
+{
+    Console.Write(prompt);
+    if (decimal.TryParse(Console.ReadLine(), out amount))
+    {
+        return true;
+    }
+    else
+    {
+        Console.WriteLine("Введите корректное число");
+        return false;
     }
 }
