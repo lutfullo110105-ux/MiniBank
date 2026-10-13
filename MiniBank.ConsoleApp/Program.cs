@@ -108,32 +108,37 @@ while (true)
     }
     else if (command == "5")
     {
-        Console.WriteLine($"{account.OwnerName} - {account.Balance} сомони");
-        if (account.Transactions.Count != 0)
-        {
-            foreach (Transaction transaction in account.Transactions)
-            {
-                if (transaction.RelatedAccountNumber == null)
-                {
-                    Console.WriteLine(
-                    $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
-                    $"{transaction.Type} | {transaction.Amount} сомони");
-                }
-                else
-                {
-                    Console.WriteLine(
-                    $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
-                    $"{transaction.Type} | {transaction.Amount} сомони | Связанный счёт: {transaction.RelatedAccountNumber}");
-                }
-            }
-        }
-        else
-        {
-            Console.WriteLine("История операций пуста");
-        }
+        ShowHistory(account);
     }
     else
     {
         Console.WriteLine("Неизвестный пункт меню");
+    }
+}
+
+void ShowHistory(BankAccount bankAccount)
+{
+    Console.WriteLine($"{bankAccount.OwnerName} - {bankAccount.Balance} сомони");
+    if (bankAccount.Transactions.Count != 0)
+    {
+        foreach (Transaction transaction in bankAccount.Transactions)
+        {
+            if (transaction.RelatedAccountNumber == null)
+            {
+                Console.WriteLine(
+                $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
+                $"{transaction.Type} | {transaction.Amount} сомони");
+            }
+            else
+            {
+                Console.WriteLine(
+                $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
+                $"{transaction.Type} | {transaction.Amount} сомони | Связанный счёт: {transaction.RelatedAccountNumber}");
+            }
+        }
+    }
+    else
+    {
+        Console.WriteLine("История операций пуста");
     }
 }
