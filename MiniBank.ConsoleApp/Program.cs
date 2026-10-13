@@ -1,7 +1,15 @@
 ﻿using MiniBank.ConsoleApp;
 
 BankAccount account = new BankAccount("100001", "Лутфулло");
-BankAccount recipient = new BankAccount("100002", "Али");
+BankAccount recipient1 = new BankAccount("100002", "Али");
+BankAccount recipient2 = new BankAccount("100003", "Амин");
+
+Dictionary<string, BankAccount> accounts = new()
+{
+    [account.AccountNumber] = account,
+    [recipient1.AccountNumber] = recipient1,
+    [recipient2.AccountNumber] = recipient2
+};
 
 Dictionary<int, string> commands = new()
 {
@@ -66,20 +74,36 @@ while (true)
     }
     else if (command == "4")
     {
-        Console.WriteLine($"Получатель: {recipient.OwnerName}, счёт {recipient.AccountNumber}");
+        Console.WriteLine("Введите номер счёта получателя: ");
 
-        Console.Write("Введите сумму перевода: ");
-
-        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+        string? accountNumber = Console.ReadLine();
+        if (accountNumber == null)
         {
-            bool success = account.TransferTo(recipient, amount);
-            Console.WriteLine(success
-                ? "Перевод выполнен"
-                : "Перевод отклонён: проверьте сумму и баланс");
+            break;
+        }
+
+        if (accounts.TryGetValue(accountNumber, out BankAccount? recipient))
+        {
+            Console.WriteLine($"Получатель: {recipient.OwnerName}, счёт {recipient.AccountNumber}");
+
+            Console.Write("Введите сумму перевода: ");
+
+            if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+            {
+                bool success = account.TransferTo(recipient, amount);
+                Console.WriteLine(success
+                    ? "Перевод выполнен"
+                    : "Перевод отклонён: проверьте сумму и баланс");
+            }
+            else
+            {
+                Console.WriteLine("Введите корректное число");
+            }
         }
         else
         {
-            Console.WriteLine("Введите корректное число");
+            Console.WriteLine("Счёт получателя не найден");
+            continue;
         }
     }
     else if (command == "5")
