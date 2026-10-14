@@ -23,6 +23,7 @@ Dictionary<int, string> commands = new()
     [8] = "Список счетов",
     [9] = "История по типу операции",
     [10] = "Количество операций по типам",
+    [11] = "История от новых к старым",
     [0] = "Выход"
 };
 
@@ -194,6 +195,22 @@ while (true)
             foreach (var item in counts)
             {
                 Console.WriteLine($"{item.Key}: {item.Value}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("История операций пуста");
+        }
+    }
+    else if (command == "11")
+    {
+        List<Transaction> copyTransactions = new(account.Transactions);
+        copyTransactions.Reverse();
+        if (copyTransactions.Count != 0)
+        {
+            foreach (Transaction transaction in copyTransactions)
+            {
+                ShowTransaction(transaction);
             }
         }
         else
