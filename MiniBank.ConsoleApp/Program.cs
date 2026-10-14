@@ -163,9 +163,7 @@ while (true)
         {
             if (transaction.Type == operationType)
             {
-                Console.WriteLine(
-                $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
-                $"{transaction.Type} | {transaction.Amount} сомони");
+                ShowTransaction(transaction);
                 found = true;
             }
         }
@@ -187,18 +185,7 @@ void ShowHistory(BankAccount bankAccount)
     {
         foreach (Transaction transaction in bankAccount.Transactions)
         {
-            if (transaction.RelatedAccountNumber == null)
-            {
-                Console.WriteLine(
-                $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
-                $"{transaction.Type} | {transaction.Amount} сомони");
-            }
-            else
-            {
-                Console.WriteLine(
-                $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
-                $"{transaction.Type} | {transaction.Amount} сомони | Связанный счёт: {transaction.RelatedAccountNumber}");
-            }
+            ShowTransaction(transaction);
         }
     }
     else
@@ -218,5 +205,21 @@ bool TryReadAmount(string prompt, out decimal amount)
     {
         Console.WriteLine("Введите корректное число");
         return false;
+    }
+}
+
+void ShowTransaction(Transaction transaction)
+{
+    if (transaction.RelatedAccountNumber == null)
+    {
+        Console.WriteLine(
+        $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
+        $"{transaction.Type} | {transaction.Amount} сомони");
+    }
+    else
+    {
+        Console.WriteLine(
+        $"{transaction.CreatedAt.ToLocalTime():dd.MM.yyyy HH:mm:ss} | " +
+        $"{transaction.Type} | {transaction.Amount} сомони | Связанный счёт: {transaction.RelatedAccountNumber}");
     }
 }
