@@ -22,6 +22,7 @@ Dictionary<int, string> commands = new()
     [7] = "Сменить текущий счёт",
     [8] = "Список счетов",
     [9] = "История по типу операции",
+    [10] = "Количество операций по типам",
     [0] = "Выход"
 };
 
@@ -170,6 +171,34 @@ while (true)
         if (!found)
         {
             Console.WriteLine("Операции такого типа не найдены");
+        }
+    }
+    else if (command == "10")
+    {
+        Dictionary<string, int> counts = new();
+
+        foreach (Transaction transaction in account.Transactions)
+        {
+            if (counts.ContainsKey(transaction.Type))
+            {
+                counts[transaction.Type]++;
+            }
+            else
+            {
+                counts[transaction.Type] = 1;
+            }
+        }
+
+        if (counts.Count != 0)
+        {
+            foreach (var item in counts)
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("История операций пуста");
         }
     }
     else
